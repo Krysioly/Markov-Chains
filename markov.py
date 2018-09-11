@@ -41,11 +41,19 @@ def make_chains(text_string):
     chains = {}
 
     words = text_string.split()
+
     for i in range(len(words) - 2):
         bi_string = (words[i], words[i+1])
 
+# Check to see if key exists in our dictionary
+        if bi_string in chains:
 
-        chains[bi_string]= words[i+2] 
+#if it exists, append word to the list (value)
+            chains[bi_string].append(words[i + 2])
+
+#if it doesn't exist, create a new list
+        else:
+            chains[bi_string] = [words[i+2]]
 
     return chains
 
@@ -55,9 +63,20 @@ def make_text(chains):
 
     words = []
 
-    # your code goes here
+    keys = list(chains.keys())
 
-    return " ".join(words)
+    first_set = choice(keys)
+    
+# Getting random value of chosen key
+
+    next_word = choice(chains[first_set])
+
+# Add first_set and next_word to words
+    words.extend([first_set[0], first_set[1], next_word])
+
+    return words
+    # return first_set
+    # return " ".join(words)
 
 
 input_path = "green-eggs.txt"
