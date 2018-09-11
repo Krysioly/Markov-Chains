@@ -66,17 +66,25 @@ def make_text(chains):
     keys = list(chains.keys())
 
     first_set = choice(keys)
-    
+
 # Getting random value of chosen key
 
     next_word = choice(chains[first_set])
 
 # Add first_set and next_word to words
     words.extend([first_set[0], first_set[1], next_word])
+    new_key = (first_set[1], next_word)
 
-    return words
-    # return first_set
-    # return " ".join(words)
+# making loop for finding the next key wanted
+    while new_key in chains:    
+        new_next_word = choice(chains[new_key])
+        
+        words.append(new_next_word)
+
+        new_key = (new_key[1], new_next_word)
+
+
+    return " ".join(words)
 
 
 input_path = "green-eggs.txt"
