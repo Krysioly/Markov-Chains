@@ -66,11 +66,14 @@ def make_text(chains):
     """Return text from chains."""
 
     words = []
+    capital_keys = []
 
-    keys = list(chains.keys())
-    
+    for key in chains.keys():
+        if key[0] == key[0].title() and key[0][0].isalpha():
+            capital_keys.append(tuple(key))
 
-    first_set = choice(keys)
+    first_set = choice(capital_keys)
+
     key_num = len(first_set)
 # Getting random value of chosen key
 
@@ -81,8 +84,6 @@ def make_text(chains):
         words+= [first_set[i]]
 
     words += [next_word]
-    
-    #words.extend([first_set[num - 2], first_set[num - 1], next_word])
 
     new_key = first_set[1 :key_num] + tuple([next_word])
     
@@ -104,7 +105,7 @@ input_path = sys.argv[1]
 input_text = open_and_read_file(input_path)
 
 # Get a Markov chain
-chains = make_chains(input_text, 6)
+chains = make_chains(input_text, 3)
 
 random_text = make_text(chains)
 
