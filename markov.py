@@ -45,28 +45,20 @@ def make_chains(text_string, num):
     for i in range(len(words) - num):
         string = []
 
-        counter = num - 1
-
-        while counter >= 0:
-            string.insert(counter+i, words[counter+i])
-            counter = counter - 1
-
-        #bi_string = words[i], words[i + 1]
+        string = words[i:num + i]
     
         key = tuple(string)
         
-
 # Check to see if key exists in our dictionary
         if key in chains:
 
 #if it exists, append word to the list (value)
             chains[key].append(words[i + num])
             
-
 #if it doesn't exist, create a new list
         else:
-            chains[key] = [words[i+num]]
-            
+            chains[key] = [words[i + num]]
+
     return chains
 
 
@@ -86,20 +78,21 @@ def make_text(chains):
 
 # Add first_set and next_word to words
     for i in range(key_num):
-        words.insert(i, [first_set[i]])
+        words+= [first_set[i]]
 
-        print(i)
+    words += [next_word]
+    
     #words.extend([first_set[num - 2], first_set[num - 1], next_word])
-    print(words)
-    new_key = (first_set[1], next_word)
 
+    new_key = first_set[1 :key_num] + tuple([next_word])
+    
 # making loop for finding the next key wanted
     while new_key in chains:    
         new_next_word = choice(chains[new_key])
         
         words.append(new_next_word)
 
-        new_key = (new_key[1], new_next_word)
+        new_key = new_key[1 :key_num] + tuple([new_next_word])
 
 
     return " ".join(words)
@@ -111,7 +104,7 @@ input_path = sys.argv[1]
 input_text = open_and_read_file(input_path)
 
 # Get a Markov chain
-chains = make_chains(input_text, 3)
+chains = make_chains(input_text, 6)
 
 random_text = make_text(chains)
 
